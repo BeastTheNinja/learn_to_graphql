@@ -1,73 +1,64 @@
-# React + TypeScript + Vite
+# Countries App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+En lille React- og GraphQL-applikation, der viser lande fra **Countries Graph API**. Projektet er lavet som en del af en opgave om at lære at bruge GraphQL queries til at hente data fra et GraphQL-baseret API.
 
-Currently, two official plugins are available:
+## Om projektet
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Appen henter data om lande via GraphQL og viser dem i et responsivt layout, der fungerer på både desktop og mobile. Hvert land vises med navn, flag-emoji, valuta, telefonkode og kontinent.
 
-## React Compiler
+## Funktioner
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Henter og viser alle lande fra Countries Graph API
+- Viser et flag for hvert land
+- Viser detaljer som valuta, telefonkode og kontinent
+- Bygget med fokus på et layout, der kan tilpasses både desktop og mobil
 
-## Expanding the ESLint configuration
+## Bonuskrav
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Følgende er bonusopgaver fra instruktionen og er ikke obligatoriske krav:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Søgefunktion til at filtrere lande
+- Ekstra side med kontinenter
+- Filtrering af lande efter kontinent
+- Modal med flere detaljer om det valgte land
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Teknologier
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- React
+- TypeScript
+- Vite
+- GraphQL
+- graphql-request
+- React Router
+- Tailwind CSS
+
+## API
+
+Projektet bruger [Countries Graph API](https://countries.trevorblades.com/) til at hente landedata.
+
+## Kør projektet lokalt
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Build
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
 ```
+
+## Lint
+
+```bash
+npm run lint
+```
+
+## Aflevering
+
+Opgaven afleveres via link til GitHub-repositoriet.
+
+## Forfatter
+
+[Dit navn]
