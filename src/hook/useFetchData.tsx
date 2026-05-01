@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { fetchAPI } from "../api/FetchAPI";
+import type { CountriesResponse } from "../types/country";
 
 export function useFetchCountries(query: string) {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState<CountriesResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
 

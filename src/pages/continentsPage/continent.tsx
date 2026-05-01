@@ -1,20 +1,42 @@
-import { Header } from "../../component/header";
-import { useFetchCountries } from "../../hook/useFetchData"
-import { CountriesGraphQL } from "../../queries/CountriesGraphQL";
+import { useParams, Link } from "react-router";
 import { useState } from "react";
+import { useFetchCountries } from "../../hook/useFetchData";
+import { CountriesGraphQL } from "../../queries/CountriesGraphQL";
+import { Header } from "../../component/header";
+import { Footer } from "../../component/footer";
 import { CountryCard } from "../../component/CountryCard";
 import { CountryModal } from "../../component/CountryModal";
-import { Footer } from "../../component/footer";
 import { SearchBar } from "../../component/SearchBar";
 import type { Country } from "../../types/country";
-import { Link } from "react-router";
 
-export const Home = () => {
-    
+export const ContinentPage = () => {
+    const { code } = useParams<{ code: string }>();
     const { data, loading, error } = useFetchCountries(CountriesGraphQL);
     const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+
+    const continentNames: { [key: string]: string } = {
+        AF: "Africa",
+        AN: "Antarctica",
+        AS: "Asia",
+        EU: "Europe",
+        NA: "North America",
+        OC: "Oceania",
+        SA: "South America",
+    };
+
+    const continentName = continentNames[code || ""] || "Continent";
+
+    // Filter countries by continent
+    const countriesByContinent = data?.countries.filter(
+        (country) => country.continent.name === continentName
+    ) || [];
+
+    // Further filter by search query
+    const filteredCountries = countriesByContinent.filter((country) =>
+        country.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     const handleCardClick = (country: Country) => {
         setSelectedCountry(country);
@@ -26,17 +48,25 @@ export const Home = () => {
         setSelectedCountry(null);
     };
 
-    // Filter countries based on search term
-    const filteredCountries = data?.countries.filter((country) =>
-        country.name.toLowerCase().includes(searchQuery.toLowerCase())
-    ) || [];
-
     return (
         <>
-            <Header title="Countries Information" />
-
+            <Header title={`${continentName}`} />
             <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
                 <div className="container mx-auto px-4 py-12">
+                    <div className="flex gap-4 mb-8">
+                        <Link
+                            to="/"
+                            className="inline-block bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-all"
+                        >
+                            ← Back to Home
+                        </Link>
+                        <Link
+                            to="/continents"
+                            className="inline-block bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-all"
+                        >
+                            ← Back to Continents
+                        </Link>
+                    </div>
 
                     {/* Loading State */}
                     {loading && (
@@ -56,18 +86,11 @@ export const Home = () => {
                         </div>
                     )}
 
-                    {/* Search Bar and Navigation */}
+                    {/* Countries List */}
                     {data && !loading && (
                         <>
-                            <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
-                                <SearchBar onSearch={setSearchQuery} />
-                                <Link
-                                    to="/continents"
-                                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg transition-all whitespace-nowrap"
-                                >
-                                    View by Continent
-                                </Link>
-                            </div>
+                            {/* Search Bar */}
+                            <SearchBar onSearch={setSearchQuery} />
 
                             {/* Results Info */}
                             <div className="mb-8 mt-8">
@@ -75,11 +98,11 @@ export const Home = () => {
                                     {searchQuery ? (
                                         <>
                                             Found <span className="font-bold text-blue-600">{filteredCountries.length}</span> of{' '}
-                                            <span className="font-bold text-blue-600">{data.countries.length}</span> countries
+                                            <span className="font-bold text-blue-600">{countriesByContinent.length}</span> countries
                                         </>
                                     ) : (
                                         <>
-                                            Displaying <span className="font-bold text-blue-600">{data.countries.length}</span> countries
+                                            <span className="font-bold text-blue-600">{countriesByContinent.length}</span> countries in {continentName}
                                         </>
                                     )}
                                 </p>
@@ -115,7 +138,6 @@ export const Home = () => {
                 onClose={handleCloseModal}
             />
             <Footer />
-
         </>
-    )
-}
+    );
+};

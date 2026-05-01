@@ -1,7 +1,7 @@
 import { gql } from "graphql-request";
 
 export const CountriesGraphQL = gql`
- query Countries {
+query Countries {
   countries {
     currency
     name
@@ -9,10 +9,26 @@ export const CountriesGraphQL = gql`
     languages {
       name
     }
+    emoji
     continent {
       name
     }
-    emoji
+  }
+  continents {
+    code
+    name
+    countries {
+      continent {
+        name
+      }
+      currency
+      emoji
+      languages {
+        name
+      }
+      name
+      phone
+    }
   }
 }
 `;
